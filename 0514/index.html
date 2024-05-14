@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open JSON data</title>
+</head>
+<body>
+    <h2>Open JSON data Practice</h2>
+
+    <div>
+        <canvas id="dataChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+    <script>
+
+        const years = [];
+        const M_teachers = [];
+        const F_teachers = [];
+        const sub = [];
+
+        chartIt();
+
+        async function chartIt() {
+            await getJSON();
+            const ctx = dataChart.getContext("2d");
+            new Chart(ctx, {
+              type: "bar",
+              data: {
+                labels: years,
+                datasets: [
+                  {
+                    label: "男教師人數",
+                    data: M_teachers,
+                    borderWidth: 1,
+                  },
+                  {
+                    label: "女教師人數",
+                    data: F_teachers,
+                    borderWidth: 1,
+                  },
+                  {
+                    label: "男女教師人數差距",
+                    data: sub,
+                    type: "line",
+                  },
+                ],
+              },
+            });
+          }
+        
+        async function getJSON() {
+            const response = await fetch('school_education_export.json');
+            const data = await response.json();
+            data.forEach((row) => {
+                const year = row.field1;
+                years.push(year);
+                const male = row.itemvalue2;
+                M_teachers.push(male);
+                const female = row.itemvalue4;
+                F_teachers.push(female);
+                sub.push(female - male);
+            });
+
+            console.log(years);
+        }
+
+
+    </script>
+</body>
+</html>

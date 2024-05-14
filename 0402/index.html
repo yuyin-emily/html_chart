@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>0402-Tabular Data</title>
+  </head>
+  <body>
+    <a href="data.html">data</a>
+    <h1>OuO</h1>
+    <h2>Emily</h2>
+    <h3>cat</h3>
+    <h4>cancer</h4>
+    <h5>0716</h5>
+    <img src="" id="pic" width="200" />
+
+    <script>
+      loadPic()
+        .then((response) => {
+          console.log("OK");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      async function loadPic() {
+        const response = await fetch("cat.png");
+        const blob = await response.blob();
+        document.getElementById("pic").src = URL.createObjectURL(blob);
+        document.getElementById("pic").width = "600";
+      }
+    </script>
+  </body>
+</html>
